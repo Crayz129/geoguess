@@ -14,6 +14,8 @@ def find_letters(list):
             return False
         except:
             return True
+        
+        # JOPA
  
 # Создание и обработка координат          
 def create_coords():
