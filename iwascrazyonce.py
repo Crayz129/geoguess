@@ -14,7 +14,7 @@ def find_letters(list):
             return False
         except:
             return True
- 
+        
 # Создание и обработка координат          
 def create_coords():
     # Ввод координат
