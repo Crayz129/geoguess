@@ -1,0 +1,9 @@
+{"meta": {"api_version": "3.0.17365", "code": 200, "issue_date": "20230908"}, 
+"result": {"items": 
+        [{"address_name": "улица Марата, 7", "full_name": "Керчь, улица Марата, 7", "id": "18015034203027324", 
+        "name": "улица Марата, 7", "point": {"lat": 45.339692, "lon": 36.456529}, "purpose_name": "Жилой дом", "type": "building"}, 
+        {"full_name": "Керчь", "id": "70030076128911708", "name": "Керчь", "point": {"lat": 45.325825, "lon": 36.446292}, 
+        "subtype": "city", "type": "adm_div"}, {"full_name": "Керчь городской округ", "id": "70030076118168158", "name": "Керчь городской округ",
+        "point": {"lat": 45.325825, "lon": 36.446292}, "subtype": "district_area", "type": "adm_div"}, {"full_name": "Республика Крым", 
+        "id": "2252817720934484", "name": "Республика Крым", "point": {"lat": 45.216555, "lon": 34.441574}, "subtype": "region", "type": "adm_div"}],
+        "total": 4}}
