@@ -51,6 +51,7 @@ class GeoGuessApp:
         print("Add marker:", coords)
         self.map_widget.set_marker(coords[0], coords[1], text="Ваш выбор")
 
+"""
     def random_geocoordinates(self):
 
         self.geolocator = Nominatim(user_agent="random_geocoordinates")
@@ -75,10 +76,10 @@ class GeoGuessApp:
                         if keyword in adress:
                             print(f"Latitude: {latitude}, Longitude: {longitude}")
                             return latitude, longitude
-                        
+"""                        
         
 if __name__ == "__main__":
     root = tb.Window(themename="superhero")
     app = GeoGuessApp(root)
-    latitude, longitude = app.random_geocoordinates()
+   # latitude, longitude = app.random_geocoordinates()
     root.mainloop()
