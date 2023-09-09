@@ -1,8 +1,11 @@
 from tkinter import *
 from tkinter import ttk
+from typing import Self
 from ttkbootstrap.constants import *
 import ttkbootstrap as tb
 import tkintermapview
+import random
+from geopy.geocoders import Nominatim
 
 class GeoGuessApp:
     def __init__(self, root):
@@ -48,7 +51,34 @@ class GeoGuessApp:
         print("Add marker:", coords)
         self.map_widget.set_marker(coords[0], coords[1], text="Ваш выбор")
 
+    def random_geocoordinates(self):
+
+        self.geolocator = Nominatim(user_agent="random_geocoordinates")
+
+        while True:
+        # Генерируем случайные координаты
+            latitude = random.uniform(-90, 90)
+            longitude = random.uniform(-180, 180)
+
+         # Преобразуем координаты в адрес
+            location = self.geolocator.reverse(f"{latitude}, {longitude}")
+
+        # Полная инфа 
+            if location is not None:
+                adress = location.address
+                building_keywords = ["amenity", "building", "geological", "historic", "millitary", "tourism"]
+
+        # Проверяем, находятся ли координаты на суше
+            if hasattr(location, 'raw') and "type" in location.raw:
+                if "land" in location.raw["type"]:
+                    for keyword in building_keywords: # Проверяем здание ли это
+                        if keyword in adress:
+                            print(f"Latitude: {latitude}, Longitude: {longitude}")
+                            return latitude, longitude
+                        
+        
 if __name__ == "__main__":
     root = tb.Window(themename="superhero")
     app = GeoGuessApp(root)
+    latitude, longitude = app.random_geocoordinates()
     root.mainloop()
