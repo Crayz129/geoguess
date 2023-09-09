@@ -34,6 +34,7 @@ class GeoGuessApp:
         map_game_window.title("Geoguess game")
         map_game_window.geometry("1500x800")
 
+        self.markers = [] # Список понадобится ниже
         self.map_widget = tkintermapview.TkinterMapView(map_game_window, width=1200, height=600)
         self.map_widget.set_zoom(1)
         self.map_widget.add_right_click_menu_command(label="Выбрать точку",
@@ -49,7 +50,17 @@ class GeoGuessApp:
 
     def add_marker_event(self, coords):
         print("Add marker:", coords)
-        self.map_widget.set_marker(coords[0], coords[1], text="Ваш выбор")
+        self.marker_1 = self.map_widget.set_marker(coords[0], coords[1], text="Ваш выбор")
+        self.markers.append(self.marker_1)
+        
+        # Проверяем, чтобы в списке маркеров элементов было меньше 1, очищаем список, удаляем прошлый маркер
+
+        if len(self.markers) > 1:
+            last_marker = self.markers.pop(0)
+            self.map_widget.delete(last_marker)
+            
+
+        
 
 """
     def random_geocoordinates(self):
