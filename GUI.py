@@ -1,35 +1,26 @@
 from tkinter import *
 from tkinter import ttk
+from ttkbootstrap.constants import *
+import ttkbootstrap as tb
 
 class GeoguessMain:
 
     def __init__(self, root):
 
         root.title("Geoguess 0.1")
-        root.geometry('600x600')
+        root.geometry('1500x800')
+        root.iconbitmap("gameico.png")
 
-        mainframe = ttk.Frame(root, padding="3 3 12 12")
-        mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
-        root.columnconfigure(0, weight=1)
-        root.rowconfigure(0, weight=1)
-       
-        self.key = StringVar()
-        key_entry = ttk.Entry(mainframe, width=7, textvariable=self.key)
-        key_entry.grid(column=1, row=1, sticky=(W, E))
+        KeyEnterLabel = tb.Label(text="Введите ключ:", font=("Halvetica", 18), bootstyle="LIGHT")
+        KeyEnterLabel.pack(pady=40)
+
+        KeyEntry = tb.Entry(root, width=25)
+        KeyEntry.pack(pady=10)
+
+        OkButton = ttk.Button(root, text="OK", bootstyle=SUCCESS, width=10)
+        OkButton.pack(pady=40)
         
-        ttk.Label(mainframe, textvariable=self.key).grid(column=2, row=2, sticky=(W, E))
-        ttk.Button(mainframe, text="OK", command=self.key).grid(column=3, row=3, sticky=W)
-
-        ttk.Label(mainframe, text="Введите ключ: ").grid(column=3, row=1, sticky=W)
         
-
-root = Tk()
+root = tb.Window(themename="superhero")
 GeoguessMain(root)
 root.mainloop()
-
-"""
-
-def key_checker():
-    if 
-
-"""
