@@ -142,12 +142,9 @@ class GeoGuessApp:
             if self.is_city is not None: 
                 print ("Успех!")
                 
+                self.encoded_data = base64.b64encode(f"{self.latitude},{self.longtitude}".encode()).decode()
 
-         # Преобразуем координаты в адрес
-             # Кодирование кортежа в строку
-            self.encoded_data = base64.b64encode(f"{self.latitude},{self.longtitude}".encode()).decode()
-
-            print("Закодированная строка:", self.encoded_data)
+                print("Закодированная строка:", self.encoded_data)
 
             #location = self.geolocator.reverse(f"{self.latitude}, {self.longitude}") 
 
