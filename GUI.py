@@ -147,6 +147,7 @@ class GeoGuessApp:
             if self.is_city is not None: 
                 print ("Успех!")
                 
+
                 # Кодирование кортежа в строку
                 self.encoded_data = base64.b64encode(f"{self.latitude},{self.longtitude}".encode()).decode()
                 print("Ключ генерации:", self.encoded_data)
