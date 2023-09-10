@@ -18,7 +18,8 @@ class GeoGuessApp:
         self.longtitude = None
         self.distance = None
         self.is_city = None
-
+    
+    # Меню
     def start_menu(self):
         self.root.title("Geoguess menu")
         self.root.geometry('600x500')
@@ -32,6 +33,7 @@ class GeoGuessApp:
         StartButton = tb.Button(self.root, text="Играть", bootstyle=SUCCESS, width=25, command=self.start_game)
         StartButton.pack(pady=40)
 
+    # Создание окна карты
     def map_game(self):
         self.root.destroy()
         map_game_window = tb.Window(themename="superhero")
@@ -56,6 +58,7 @@ class GeoGuessApp:
 
         map_game_window.mainloop()
 
+    # Добавляем маркер на карту
     def add_marker_event(self, coords):
         print("Add marker:", coords)
         self.marker_1 = self.map_widget.set_marker(coords[0], coords[1], text="Ваш выбор")
@@ -66,25 +69,26 @@ class GeoGuessApp:
         self.markers.append(self.marker_1)
         
         # Проверяем, чтобы в списке маркеров элементов было меньше 1, очищаем список, удаляем прошлый маркер
-
         if len(self.markers) > 1:
             last_marker = self.markers.pop(0)
             self.map_widget.delete(last_marker)
 
         self.haversine()
-        
+    
+    # Запускаем игру 
     def start_game(self):
         self.get_coords_by_key()
+        
         if self.latitude == None or self.longtitude == None:
             self.random_geocoordinates()
         self.map_game()
-        
+    
+    # Вычисляем расстояние между двумя точками 
     def haversine(self):
         # Радиус Земли в километрах
         radius = 6371.0
 
         if self.latitude1 is not None and self.longtitude1 is not None and self.latitude is not None and self.longtitude is not None:
-
             # Переводим градусы в радианы
             lat1 = math.radians(self.latitude1)
             lon1 = math.radians(self.longtitude1)
@@ -110,13 +114,15 @@ class GeoGuessApp:
             print(self.latitude1,self.longtitude1, self.latitude,self.longtitude) 
             print("Pizdec")    
 
+    # Генерируем ключ
     def generate_key(self):
         GeoGuessApp.random_geocoordinates(self)
-        print(self.encoded_data)
         self.map_game()
-        
+    
+    # Декодируем ключ    
     def get_coords_by_key(self):
         self.key = self.KeyEntry.get()
+        
         if self.key == "":
             self.latitude = None
             self.longtitude = None
@@ -126,13 +132,12 @@ class GeoGuessApp:
             self.longtitude = self.decoded_data[1]
             print(self.latitude,self.longtitude)
         
-        
+    # Генерируем случайные координаты
     def random_geocoordinates(self):
         
         self.geolocator = Nominatim(user_agent="random_geocoordinates")
 
         while True:
-        # Генерируем случайные координаты
             
             self.latitude = random.uniform(-90, 90)
             self.longtitude = random.uniform(-180, 180)
@@ -142,41 +147,17 @@ class GeoGuessApp:
             if self.is_city is not None: 
                 print ("Успех!")
                 
+
+                # Кодирование кортежа в строку
                 self.encoded_data = base64.b64encode(f"{self.latitude},{self.longtitude}".encode()).decode()
-
-                print("Закодированная строка:", self.encoded_data)
-
-            #location = self.geolocator.reverse(f"{self.latitude}, {self.longitude}") 
-
+                print("Ключ генерации:", self.encoded_data)
                 print(self.latitude, self.longtitude)
+                
                 break
             else:
                 print("Загрузка...")
-
-         
-"""
-        # Полная инфа 
-            if location is not None:
-                adress = location.address
-                building_keywords = ["amenity", "building", "geological", "historic", "millitary", "tourism"]
-
-        # Проверяем, находятся ли координаты на суше
-            if hasattr(location, 'raw') and "type" in location.raw:
-                if "land" in location.raw["type"]:
-                    for keyword in building_keywords: # Проверяем здание ли это
-                        if keyword in adress:
-                            print(f"Latitude: {latitude}, Longitude: {longitude}")
-                            return latitude, longitude
-"""                         
-""" 
-class Seed:
-    def __init__(self):
-       
-        
-      """   
         
 if __name__ == "__main__":
     root = tb.Window(themename="superhero")
     app = GeoGuessApp(root)
-    #latitude, longitude = app.random_geocoordinates()
     root.mainloop()
