@@ -17,6 +17,7 @@ class GeoGuessApp:
         self.latitude = None
         self.longtitude = None
         self.distance = None
+        self.is_city = None
 
     def start_menu(self):
         self.root.title("Geoguess menu")
@@ -127,14 +128,20 @@ class GeoGuessApp:
         
         
     def random_geocoordinates(self):
-
+        
         self.geolocator = Nominatim(user_agent="random_geocoordinates")
 
-        if True:
+        while True:
         # Генерируем случайные координаты
             
             self.latitude = random.uniform(-90, 90)
             self.longtitude = random.uniform(-180, 180)
+
+            self.is_city = tkintermapview.convert_coordinates_to_city(self.latitude, self.longtitude)
+
+            if self.is_city is not None: 
+                print ("Успех!")
+                
 
          # Преобразуем координаты в адрес
              # Кодирование кортежа в строку
@@ -143,8 +150,13 @@ class GeoGuessApp:
             print("Закодированная строка:", self.encoded_data)
 
             #location = self.geolocator.reverse(f"{self.latitude}, {self.longitude}") 
-            print(self.latitude,self.longtitude)
-        
+
+                print(self.latitude, self.longtitude)
+                break
+            else:
+                print("Загрузка...")
+
+         
 """
         # Полная инфа 
             if location is not None:
