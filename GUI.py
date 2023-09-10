@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-from typing import Self
 from ttkbootstrap.constants import *
 import ttkbootstrap as tb
 import tkintermapview
@@ -17,6 +16,7 @@ class GeoGuessApp:
         self.latitude = None
         self.longtitude = None
         self.distance = None
+        self.is_city = None
 
     def start_menu(self):
         self.root.title("Geoguess menu")
@@ -111,20 +111,30 @@ class GeoGuessApp:
             print("Pizdec")    
 
     def random_geocoordinates(self):
-
+        
         self.geolocator = Nominatim(user_agent="random_geocoordinates")
 
-        if True:
+        while True:
         # Генерируем случайные координаты
             
             self.latitude = random.uniform(-90, 90)
             self.longtitude = random.uniform(-180, 180)
 
+            self.is_city = tkintermapview.convert_coordinates_to_city(self.latitude, self.longtitude)
+
+            if self.is_city is not None: 
+                print ("Успех!")
+                
+
          # Преобразуем координаты в адрес
 
             #location = self.geolocator.reverse(f"{self.latitude}, {self.longitude}") 
-            print(self.latitude, self.longtitude)
-        
+                print(self.latitude, self.longtitude)
+                break
+            else:
+                print("Загрузка...")
+
+            
 """
         # Полная инфа 
             if location is not None:
