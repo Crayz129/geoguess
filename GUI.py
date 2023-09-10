@@ -1,12 +1,12 @@
 from tkinter import *
 from tkinter import ttk
-from typing import Self
 from ttkbootstrap.constants import *
 import ttkbootstrap as tb
 import tkintermapview
 import random
 from geopy.geocoders import Nominatim
 import math 
+import base64
 
 class GeoGuessApp:
     def __init__(self, root):
@@ -25,17 +25,13 @@ class GeoGuessApp:
         KeyEnterLabel = tb.Label(text="Введите ключ:", font=("Helvetica", 18), bootstyle="LIGHT")
         KeyEnterLabel.pack(pady=40)
 
-        KeyEntry = tb.Entry(self.root, width=25)
-        KeyEntry.pack(pady=10)
+        self.KeyEntry = tb.Entry(self.root, width=25)
+        self.KeyEntry.pack(pady=10)
 
-        OkButton = tb.Button(self.root, text="OK", bootstyle=SUCCESS, width=10)
-        OkButton.pack(pady=40)
-
-        StartButton = tb.Button(self.root, text="Начать без ключа", bootstyle=SUCCESS, width=25, command=self.start_game)
-        StartButton.pack(pady=70)
+        StartButton = tb.Button(self.root, text="Играть", bootstyle=SUCCESS, width=25, command=self.start_game)
+        StartButton.pack(pady=40)
 
     def map_game(self):
-        self.random_geocoordinates()
         self.root.destroy()
         map_game_window = tb.Window(themename="superhero")
         map_game_window.title("Geoguess game")
@@ -47,7 +43,7 @@ class GeoGuessApp:
         self.map_widget.add_right_click_menu_command(label="Выбрать точку",
                                                     command=self.add_marker_event,
                                                     pass_coords=True)
-        self.map_widget.pack(pady=40)
+        self.map_widget.pack(pady=20)
 
         self.tip = tb.Label(text="Вы должны угадать загаданную точку на карте, для выбора точки нажмите ПКМ",
                             font=("Helvetica", 18), bootstyle="LIGHT")
@@ -75,10 +71,13 @@ class GeoGuessApp:
             self.map_widget.delete(last_marker)
 
         self.haversine()
-
+        
     def start_game(self):
+        self.get_coords_by_key()
+        if self.latitude == None or self.longtitude == None:
+            self.random_geocoordinates()
         self.map_game()
-
+        
     def haversine(self):
         # Радиус Земли в километрах
         radius = 6371.0
@@ -107,9 +106,26 @@ class GeoGuessApp:
             else: print("ПОБЕДААААА")    
         
         else: 
-            print(self.latitude1, self.longtitude1, self.latitude, self.longtitude) 
+            print(self.latitude1,self.longtitude1, self.latitude,self.longtitude) 
             print("Pizdec")    
 
+    def generate_key(self):
+        GeoGuessApp.random_geocoordinates(self)
+        print(self.encoded_data)
+        self.map_game()
+        
+    def get_coords_by_key(self):
+        self.key = self.KeyEntry.get()
+        if self.key == "":
+            self.latitude = None
+            self.longtitude = None
+        else:
+            self.decoded_data = tuple(map(float, base64.b64decode(self.key).decode().split(',')))
+            self.latitude = self.decoded_data[0]
+            self.longtitude = self.decoded_data[1]
+            print(self.latitude,self.longtitude)
+        
+        
     def random_geocoordinates(self):
 
         self.geolocator = Nominatim(user_agent="random_geocoordinates")
@@ -121,9 +137,13 @@ class GeoGuessApp:
             self.longtitude = random.uniform(-180, 180)
 
          # Преобразуем координаты в адрес
+             # Кодирование кортежа в строку
+            self.encoded_data = base64.b64encode(f"{self.latitude},{self.longtitude}".encode()).decode()
+
+            print("Закодированная строка:", self.encoded_data)
 
             #location = self.geolocator.reverse(f"{self.latitude}, {self.longitude}") 
-            print(self.latitude, self.longtitude)
+            print(self.latitude,self.longtitude)
         
 """
         # Полная инфа 
@@ -139,6 +159,13 @@ class GeoGuessApp:
                             print(f"Latitude: {latitude}, Longitude: {longitude}")
                             return latitude, longitude
 """                         
+""" 
+class Seed:
+    def __init__(self):
+       
+        
+      """   
+        
 if __name__ == "__main__":
     root = tb.Window(themename="superhero")
     app = GeoGuessApp(root)
