@@ -18,6 +18,7 @@ class GeoGuessApp:
         self.longtitude = None
         self.distance = None
         self.is_city = None
+        self.marker_is_city = None
     
     # Меню
     def start_menu(self):
@@ -30,8 +31,11 @@ class GeoGuessApp:
         self.KeyEntry = tb.Entry(self.root, width=25)
         self.KeyEntry.pack(pady=10)
 
-        StartButton = tb.Button(self.root, text="Играть", bootstyle=SUCCESS, width=25, command=self.start_game)
+        StartButton = tb.Button(self.root, text="Играть", bootstyle=SUCCESS, width=25, command=self.get_coords_by_key)
         StartButton.pack(pady=40)
+
+        StartButton2 = tb.Button(self.root, text="Играть без ключа", bootstyle=SUCCESS, width=40, command=self.start_game)
+        StartButton2.pack(pady=40)
 
     # Создание окна карты
     def map_game(self):
@@ -74,10 +78,11 @@ class GeoGuessApp:
             self.map_widget.delete(last_marker)
 
         self.haversine()
+        self.wiki_hint_window()
     
     # Запускаем игру 
     def start_game(self):
-        self.get_coords_by_key()
+        self.map_game()
         
         if self.latitude == None or self.longtitude == None:
             self.random_geocoordinates()
@@ -131,7 +136,17 @@ class GeoGuessApp:
             self.latitude = self.decoded_data[0]
             self.longtitude = self.decoded_data[1]
             print(self.latitude,self.longtitude)
-        
+
+    def wiki_hint_window(self):
+        while self.marker_is_city != self.is_city:
+            wiki_hint_window = tk.Tk()
+
+            wiki_hint_window.mainloop()
+            break
+        else: 
+            print("ERROR")
+
+
     # Генерируем случайные координаты
     def random_geocoordinates(self):
         
@@ -143,6 +158,9 @@ class GeoGuessApp:
             self.longtitude = random.uniform(-180, 180)
 
             self.is_city = tkintermapview.convert_coordinates_to_city(self.latitude, self.longtitude)
+
+            if self.latitude1 is not None and self.longtitude1 is not None:
+                self.marker_is_city = tkintermapview.convert_coordinates_to_city(self.latitude1, self.longtitude1)
 
             if self.is_city is not None: 
                 print ("Успех!")
