@@ -14,11 +14,11 @@ def find_letters(list):
             return False
         except:
             return True
- 
+        
 # Создание и обработка координат          
 def create_coords():
     # Ввод координат
-    coords = input('Input adress na russkom or coordinats: ')
+    coords = input('Input coordinats: ')
     
     # Разбиваем координаты на широту и долготу
     if ',' in coords:
@@ -47,8 +47,8 @@ def api_get_request(coords):
         json.dump(get_response.json(), f, ensure_ascii=False) """
     with open('geo.json','r') as f:
         adress = json.load(f)
-    """ adress = get_response.json() """
-    print(adress['result']['items'][0]['full_name'], adress['result']['items'][3]['full_name'])
+    # adress = get_response.json()
+    print(adress['result']['items'][3]['full_name'], ',' , adress['result']['items'][0]['full_name'])
     
 def api_post_request(coords):
     lon = float(coords[0])
@@ -58,12 +58,10 @@ def api_post_request(coords):
         {
             "lat": 36.45671576713001,
             "lon": 45.340016732485225,
-            'type': 'stop'
         },
         {
             'lon': 35.04993610565122,
             'lat': 48.46841133624937,
-            'type': 'stop'
         }
     ],
     "type": "shortest",
@@ -88,5 +86,6 @@ if __name__ == '__main__':
     print('Вызов api_request завершён. ')
     api_post_request(coords)
     print("Вызов api_post_request завершён. ")
+    
     
     
