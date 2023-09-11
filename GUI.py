@@ -137,16 +137,6 @@ class GeoGuessApp:
             self.longtitude = self.decoded_data[1]
             print(self.latitude,self.longtitude)
 
-    def wiki_hint_window(self):
-        while self.marker_is_city != self.is_city:
-            wiki_hint_window = tk.Tk()
-
-            wiki_hint_window.mainloop()
-            break
-        else: 
-            print("ERROR")
-
-
     # Генерируем случайные координаты
     def random_geocoordinates(self):
         
