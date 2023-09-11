@@ -7,6 +7,7 @@ import random
 from geopy.geocoders import Nominatim
 import math 
 import base64
+import wikipediaapi
 
 class GeoGuessApp:
     def __init__(self, root):
@@ -139,8 +140,12 @@ class GeoGuessApp:
 
     def wiki_hint_window(self):
         while self.marker_is_city != self.is_city:
-            wiki_hint_window = tk.Tk()
-
+            wiki_hint_window = ttk.Tk()
+            wiki_hint_window.title("Подсказка")
+            wiki_hint_window.geometry("600x500")
+            self.wiki_agent = wikipediaapi.Wikipedia("geoguess (arsenii.solovev12@gmail.com)",'ru')
+            self.wiki_hint = self.wiki_agent.page(self.is_city)
+            wiki_hint_window = tb.Label(text=self.wiki_hint.summary, font=("Helvetica", 18), bootstyle="LIGHT")
             wiki_hint_window.mainloop()
             break
         else: 
