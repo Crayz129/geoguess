@@ -1,26 +1,13 @@
-import tkinter as tk
-from tkinter import ttk
-import ttkbootstrap.constants
 import ttkbootstrap as tb
-import tkintermapview
-import random
-from geopy.geocoders import Nominatim
-import math 
-import base64
 import wikipediaapi
 import translators as ts
 
 class WikiHintWindow:
-    def __init__(self, root) -> None:
-        wiki_hint_window = tk.Tk()
-        wiki_hint_window.title("Подсказка")
-        wiki_hint_window.geometry("200x150")
+    def __init__(self, city_name) -> None:
         self.marker_is_city = "Kerch"
-        self.is_city = True
         self.wiki_agent_ru = wikipediaapi.Wikipedia("geoguess (arsenii.solovev12@gmail.com)",'ru')
         self.wiki_agent_en = wikipediaapi.Wikipedia("geoguess (arsenii.solovev12@gmail.com)",'en')
-        self.root = root
-        self.is_city = None
+        self.city_name = city_name
         self.wiki_hint_window_init()
         
     def wiki_hint_window_init(self):
@@ -57,7 +44,9 @@ class WikiHintWindow:
         return formated_hint
             
 
-if __name__ == "__main__":
-    root = tb.Window(themename="superhero")
-    app = WikiHintWindow(root)
-    root.mainloop()
+def WindowExec(city_name):
+    WikiWin = tb.Window(themename="superhero")
+    WikiWin.title("Geoguess game hint")
+    WikiWin.geometry("1500x900")
+    WikiHintWindow(city_name)
+    WikiWin.mainloop()

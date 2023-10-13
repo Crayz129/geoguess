@@ -1,4 +1,4 @@
-from tkinter import *
+import tkinter
 from tkinter import ttk
 from ttkbootstrap.constants import *
 import ttkbootstrap as tb
@@ -7,7 +7,7 @@ import random
 from geopy.geocoders import Nominatim
 import math 
 import base64
-
+from wikipedia_hint import WindowExec as WinExec
 class GeoGuessApp:
     def __init__(self, root):
         self.root = root
@@ -17,7 +17,7 @@ class GeoGuessApp:
         self.latitude = None
         self.longtitude = None
         self.distance = None
-        self.is_city = None
+        self.city_name = None
     
     # Меню
     def start_menu(self):
@@ -55,6 +55,9 @@ class GeoGuessApp:
         self.tip = tb.Label(text="Пока смотри на вывод в консоли",
                             font=("Helvetica", 18), bootstyle="LIGHT")
         self.tip.pack(pady=10)
+        
+        self.hint_button = tb.Button(map_game_window, text="Подсказка", bootstyle=SUCCESS, width=25, command=WinExec(GeoGuessApp.city_name))
+        self.hint_button.pack(pady=20)
 
         map_game_window.mainloop()
 
@@ -142,9 +145,9 @@ class GeoGuessApp:
             self.latitude = random.uniform(-90, 90)
             self.longtitude = random.uniform(-180, 180)
 
-            self.is_city = tkintermapview.convert_coordinates_to_city(self.latitude, self.longtitude)
+            self.city_name = tkintermapview.convert_coordinates_to_city(self.latitude, self.longtitude)
 
-            if self.is_city is not None: 
+            if self.city_name is not None: 
                 print ("Успех!")
                 
 
